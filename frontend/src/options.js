@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-
 const MultiSelectField = () => {
   const initialOptions = [
     'B1.01','B2.101','B2.102','B2.107','B2.108',
@@ -41,13 +40,23 @@ const MultiSelectField = () => {
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [showOptions, setShowOptions] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [counter , setCounter] = useState(1);
 
   const handleOptionClick = (option) => {
     setSelectedOptions([...selectedOptions, option]);
+    if (counter === 5) {
+      setCounter(0);
+    }
+    else {
+        setCounter(counter + 1);
+    }
   };
 
   const handleDeleteOption = (optionToDelete) => {
     setSelectedOptions(selectedOptions.filter((option) => option !== optionToDelete));
+    if (counter > 1) {
+      setCounter(counter -1);
+    }
   };
 
   useEffect(() => {
@@ -63,7 +72,7 @@ const MultiSelectField = () => {
   return (
     <div style={{ display: 'inline-block', position: 'relative' }}>
       <button onClick={() => setShowOptions(!showOptions)}>
-        {showOptions ? 'Hide Rooms' : 'Show Rooms'}
+        {showOptions ? 'Hide Rooms' : 'Choose Rooms'}
       </button>
 
       {showOptions && (
@@ -109,9 +118,23 @@ const MultiSelectField = () => {
             key={option}
             style={{ backgroundColor: '#f0f0f0', padding: '5px', margin: '5px', borderRadius: '5px' }}
           >
-            {option}
+
+            
+                {option    }
+            
+            
+            {/* {counter === 5 ? (
+        <>
+          <br />
+          
+          
+        </>
+      ) : null} */}
             <button onClick={() => handleDeleteOption(option)}>x</button>
+            
+            
           </span>
+          
         ))}
       </div>
     </div>
