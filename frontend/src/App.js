@@ -5,6 +5,7 @@ import MultiSelectField from './options';
 function App() {
   const [file1, setFile1] = useState(null);
   const [file2, setFile2] = useState(null);
+  const [file3,setFile3] = useState(null);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [error,setError] = useState(false);
@@ -12,21 +13,7 @@ function App() {
 
 
   const initialOptions = [
-    'B1.01','B2.101','B2.102','B2.107','B2.108',
-    'B2.109','B2.110','B2.111','B2.112','B2.201',
-    'B2.202','B2.207','B2.208','B2.209','B2.210',
-    'B2.211','B2.212','B2.301','B2.302','B2.307',
-    'B2.308','B2.309','B2.310','B2.311','B2.312',
-    'B3.102','B3.103','B3.105','B3.106','B3.107',
-    'B3.108','B3.202','B3.203','B3.205','B3.206',
-    'B3.207','B3.208','B3.302','B3.305','B4.101',
-    'B4.102','B4.106','B4.107','B4.108','B4.109',
-    'B4.201','B4.202','B4.206','B4.207','B4.208',
-    'B4.209','B4.210','B4.211','B4.212','B4.213',
-    'B4.301','B4.302','B4.307','B4.308','B6.005[B1.MATS]',
-    'B6.101','B6.105','B6.106','B6.201','B6.206',
-    'B6.209','B6.301','B6.311','B7.102','B7.104',
-    'B7.108','B7.110','B7.111','B7.201','B7.301',
+    
     'C2.101','C2.102','C2.105','C2.107','C2.108',
     'C2.112','C2.201','C2.202','C2.205','C2.206',
     'C2.207','C2.208','C2.209','C2.211','C2.212',
@@ -40,13 +27,7 @@ function App() {
     'C5.301','C5.302','C5.304','C5.305','C5.BASE',
     'C6.105','C6.206','C6.207','C6.209','C6.304',
     'C7.101CADLab','C7.119CADLab','C7.201','C7.203','C7.217',
-    'C7.220','C7.305',"D2.101","D2.102-MD","D2.105-MD",
-    "D2.201","D2.201-GD","D2.202-GD","D2.205-GD","D2.301-PD",
-  "D2.302-PD","D2.305-PD","D4.01","D4.101","D4.103","D4.104","D4.105","D4.109","D4.110","D4.111",
-  "D4.117","D4.201","D4.203","D4.204","D4.205","D4.209","D4.210","D4.211","D4.212",
-  "D4.302","D4.303","D4.305","D4.306","D4.309","D4.310","D4.311","D4.312"  ,"D4.317" ,"D5.001",
-  "D5.101-MD","D5.105-MD","D5.201","D5.201-GD","D5.202-GD","D5.205-GD","D5.301-PD","D5.302-PD","D5.305-PD",
-  "H1","H2","H3","H4","H5","H6","H7","H8","H9","H10","H11","H12","H13","H14","H15","H16","H17","H18","H19","H20"];
+    'C7.220','C7.305'];
   const [availableOptions, setAvailableOptions] = useState(initialOptions);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [showOptions, setShowOptions] = useState(false);
@@ -107,6 +88,9 @@ function App() {
   const handleFile2Change = (event) => {
     setFile2(event.target.files[0]);
   };
+  const handleFile3Change = (event) => {
+    setFile3(event.target.files[0]);
+  };
 
   const handleStartDateChange = (event) => {
     setStartDate(event.target.value);
@@ -124,6 +108,18 @@ function App() {
     }
     // Do something with the uploaded files and dates
     console.log(file1, file2, startDate, endDate);
+      fetch('/data', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({file1, file2, file3, startDate, endDate, selectedOptions}),
+      }).then((res) => {
+        console.log(res);
+        console.log('New data added');
+
+      })
+
     navigate('/about');
   };
 
@@ -138,6 +134,11 @@ function App() {
       <div>
         <label htmlFor="file2">Upload Examiner CSV:  </label>
         <input type="file" id="file2" accept='.csv' required onChange={handleFile2Change} />
+      </div>
+      <br />
+      <div>
+        <label htmlFor="file3">Upload GUC Supervisor CSV:  </label>
+        <input type="file" id="file3" accept='.csv' required onChange={handleFile3Change} />
       </div>
       <br />
       <div>
