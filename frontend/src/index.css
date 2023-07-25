@@ -10,12 +10,18 @@
   padding: 20px;
   display: flex;
   align-items: center;
-  max-width: 600px;
   margin: 0 auto;
   border-bottom: 1px solid #f2f2f2;
+  
+  
+  background-color: #ffffff;
+
 }
 .navbar h1 {
   color: #180add;
+  /* center the header */
+  margin: auto;
+
 }
 .navbar .links {
   margin-left: auto;
@@ -67,8 +73,13 @@
   border-radius: 4px;
   cursor: pointer;
   font-size: 16px;
+  border-radius: 20px;
 }
 
 .form button[type="submit"]:hover {
   background-color: #0d0a8a;
+  /* make the button rounded on hover */
+ 
+
+
 }

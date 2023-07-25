@@ -57,6 +57,25 @@ function App() {
       </div>
       <br />
       
+     {/* adjust the drop down menu to allow more than one option */}
+      <div>
+        <label htmlFor="time">Time: </label>
+        <select id="time" name="time">
+          <option value="9:00">9:00</option>
+          <option value="10:00">10:00</option>
+          <option value="11:00">11:00</option>
+          <option value="12:00">12:00</option>
+          <option value="13:00">13:00</option>
+          <option value="14:00">14:00</option>
+          <option value="15:00">15:00</option>
+          <option value="16:00">16:00</option>
+
+        </select>
+
+      </div>
+      
+      <br />
+    
       
       <button type="submit">Submit</button>
       <br />
