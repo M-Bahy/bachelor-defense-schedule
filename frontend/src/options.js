@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect , useRef } from 'react';
+
 const MultiSelectField = () => {
   const initialOptions = [
     'B1.01','B2.101','B2.102','B2.107','B2.108',
@@ -41,6 +42,7 @@ const MultiSelectField = () => {
   const [showOptions, setShowOptions] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [counter , setCounter] = useState(1);
+  const dropdownRef = useRef(null);
 
   const handleOptionClick = (option) => {
     setSelectedOptions([...selectedOptions, option]);
@@ -56,6 +58,22 @@ const MultiSelectField = () => {
     setSelectedOptions(selectedOptions.filter((option) => option !== optionToDelete));
     if (counter > 1) {
       setCounter(counter -1);
+    }
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'ArrowUp') {
+      event.preventDefault();
+      const previousIndex = dropdownRef.current.selectedIndex - 1;
+      if (previousIndex >= 0) {
+        dropdownRef.current.selectedIndex = previousIndex;
+      }
+    } else if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      const nextIndex = dropdownRef.current.selectedIndex + 1;
+      if (nextIndex < dropdownRef.current.options.length) {
+        dropdownRef.current.selectedIndex = nextIndex;
+      }
     }
   };
 
@@ -94,21 +112,27 @@ const MultiSelectField = () => {
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={handleKeyDown}
             style={{ width: '100%', padding: '5px', boxSizing: 'border-box' }}
             placeholder="Search..."
           />
 
-          <ul style={{ listStyle: 'none', padding: 0 }}>
+          <select
+            multiple
+            ref={dropdownRef}
+            style={{ width: '100%', padding: '5px', boxSizing: 'border-box' }}
+            onKeyDown={handleKeyDown}
+          >
             {availableOptions.map((option) => (
-              <li
+              <option
                 key={option}
-                style={{ cursor: 'pointer', padding: '5px' }}
+                value={option}
                 onClick={() => handleOptionClick(option)}
               >
                 {option}
-              </li>
+              </option>
             ))}
-          </ul>
+          </select>
         </div>
       )}
 
