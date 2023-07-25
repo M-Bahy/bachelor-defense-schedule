@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import MultiSelectField from './options';
 // import './App.css';
 function App() {
   const [file1, setFile1] = useState(null);
@@ -7,11 +8,13 @@ function App() {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedValues, setSelectedValues] = useState([]);
   const navigate = useNavigate();
 
   const handleFile1Change = (event) => {
     setFile1(event.target.files[0]);
   };
+  const handleSelectChange = (event) => {}
 
   const handleFile2Change = (event) => {
     setFile2(event.target.files[0]);
@@ -59,18 +62,7 @@ function App() {
       
      {/* adjust the drop down menu to allow more than one option */}
       <div>
-        <label htmlFor="time">Time: </label>
-        <select id="time" name="time">
-          <option value="9:00">9:00</option>
-          <option value="10:00">10:00</option>
-          <option value="11:00">11:00</option>
-          <option value="12:00">12:00</option>
-          <option value="13:00">13:00</option>
-          <option value="14:00">14:00</option>
-          <option value="15:00">15:00</option>
-          <option value="16:00">16:00</option>
-
-        </select>
+        <MultiSelectField/>
 
       </div>
       
