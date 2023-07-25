@@ -1,5 +1,5 @@
 import React, { useState, useEffect , useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { json, useNavigate } from 'react-router-dom';
 import MultiSelectField from './options';
 // import './App.css';
 function App() {
@@ -100,27 +100,56 @@ function App() {
     setEndDate(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     if (selectedOptions.length === 0){
       setError(true);
       return;
     }
     // Do something with the uploaded files and dates
-    console.log(file1, file2, startDate, endDate);
-      fetch('/data', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({file1, file2, file3, startDate, endDate, selectedOptions}),
-      }).then((res) => {
-        console.log(res);
-        console.log('New data added');
-
-      })
-
-    navigate('/about');
+    // console.log(file1, file2, startDate, endDate , selectedOptions);
+    // const response = await fetch("/data", {
+    //   method: "POST",
+    //   body: JSON.stringify(startDate, endDate),
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // });
+    console.log("start date: " + startDate);
+    console.log("end date: " + endDate);
+    console.log("selected rooms: " + selectedOptions);
+    const p1 = file1.text();
+    const p2 = file2.text();
+    const p3 = file3.arrayBuffer();
+    await Promise.all([p1, p2, p3]);
+    console.log("File 1: " + file1.name);
+    console.log("File 2: " + await p2);
+    p3.then((result) => {
+      console.log("File 3: " + result.toString());
+    });
+    const jsonStartDate = JSON.stringify(startDate);
+    const jsonEndDate = JSON.stringify(endDate);
+    const jsonSelectedRooms = JSON.stringify(selectedOptions);
+    const jsonFile1 = JSON.stringify(file1);
+    const jsonFile2 = JSON.stringify(file2);
+    const jsonFile3 = JSON.stringify(file3);
+    console.log("json start date: " + jsonStartDate);
+    console.log("json end date: " + jsonEndDate);
+    console.log("json selected rooms: " + jsonSelectedRooms);
+    console.log("json File 1: " + jsonFile1);
+    console.log("json File 2: " + jsonFile2);
+    console.log("json File 3: " + jsonFile3);
+    const body = JSON.stringify(startDate, endDate, selectedOptions);
+    console.log("body: " + body);    
+     const response = await fetch("/data", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({startDate, endDate, selectedOptions}),
+      
+    });
+    
   };
 
   return (
