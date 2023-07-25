@@ -51,19 +51,15 @@ const MultiSelectField = () => {
   };
 
   useEffect(() => {
-    const filteredOptions = availableOptions.filter((option) =>
-      option.toLowerCase().startsWith(searchTerm.toLowerCase())
-    );
-    setAvailableOptions(filteredOptions);
-  }, [searchTerm]);
-
-  useEffect(() => {
-    const updatedAvailableOptions = initialOptions.filter(
-      (option) => !selectedOptions.includes(option)
-    );
-    setAvailableOptions(updatedAvailableOptions);
-  }, [selectedOptions]);
-
+    if (!searchTerm) {
+      setAvailableOptions(initialOptions.filter((option) => !selectedOptions.includes(option)));
+    } else {
+      const filteredOptions = initialOptions.filter((option) =>
+        option.toLowerCase().startsWith(searchTerm.toLowerCase())
+      );
+      setAvailableOptions(filteredOptions.filter((option) => !selectedOptions.includes(option)));
+    }
+  }, [searchTerm, selectedOptions, initialOptions]);
   return (
     <div style={{ display: 'inline-block', position: 'relative' }}>
       <button onClick={() => setShowOptions(!showOptions)}>
